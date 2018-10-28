@@ -1,8 +1,10 @@
 # Pagespeed issue with picture elements
 
-The following project is a showcase of the issue Google Pagespeed has with HTML picture elements.
+The following project shows the negative impact of HTML picture elements on the Google Pagespeed Index and a potential workaround.
 
 ## Example 1 - Using picture elements
+
+In this example we use picture elements with media queries to dynamically load images according to the size of the viewport. 
 
 ### Code
 
@@ -47,6 +49,8 @@ img {
 ```
 
 ### Test results
+
+Let´s test the example in Google Pagespeed.
 
 * [Google Pagespeed](https://developers.google.com/speed/pagespeed/insights/?hl=en&url=http%3A%2F%2Fdesign.humml.eu%2Fsandbox%2Fpagespeed%2Findex.html)
 
