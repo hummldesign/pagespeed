@@ -1,0 +1,46 @@
+Satisfy Any
+Allow from all
+
+#Define character set instead of meta tag in html page
+AddCharset UTF-8 .html
+
+#Redirect non-www to www
+RewriteCond %{HTTP_HOST} !^www\.
+RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+#Redirect URLs without trailing slash to URL with trailing slash
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1/ [L,R=301]
+
+#Compress requests
+<ifModule mod_gzip.c>
+	mod_gzip_on Yes
+	mod_gzip_dechunk Yes
+	mod_gzip_item_include file .(html?|css|js)$
+	mod_gzip_item_include handler ^cgi-script$
+	mod_gzip_item_include mime ^text/.*
+	mod_gzip_item_include mime ^application/x-javascript.*
+	mod_gzip_item_exclude mime ^image/.*
+	mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</ifModule>
+
+<IfModule mod_deflate.c>
+ <FilesMatch "\.(html|js|jpg|jpeg|gif|png|css|ttf|woff|svg|eot|mp4)$">
+  SetOutputFilter DEFLATE
+ </FilesMatch>
+</IfModule>
+
+# Pagespeed config
+<ifmodule pagespeed_module>
+	ModPagespeed off
+	ModPagespeedDisallow http://www.%{HTTP_HOST}/*
+</ifmodule>
+
+# Caching (1 year)
+<FilesMatch "\.(?i:gif|jpe?g|png|css|js)$">
+	<IfModule mod_headers.c>
+		Header set Cache-Control "max-age=31536000, public, must-revalidate"
+	</IfModule>
+</FilesMatch>
